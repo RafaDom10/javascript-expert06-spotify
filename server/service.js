@@ -64,12 +64,12 @@ export class Service {
       } = this._executeSoxCommand(args);
 
       await Promise.all([
+        once(stderr, 'readable'),
         once(stdout, 'readable'),
-        once(stderr, 'readable')
       ])
 
       const [success, error] = [stdout, stderr].map(stream => stream.read());
-      if (error) return await Promise.reject();
+      if (error) return await Promise.reject(error);
 
       return success.toString().trim().replace(/k/, '000');
 
@@ -132,7 +132,7 @@ export class Service {
   }
 
   async getFileStream(file) {
-    const { name, type } = await this.getFileInfo(file);;
+    const { name, type } = await this.getFileInfo(file);
     return {
       stream: this.createFileStream(name),
       type

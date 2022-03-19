@@ -14,11 +14,11 @@ export class Controller {
     const result = {
       result: 'ok'
     };
+
     const cmd = command.toLowerCase();
 
     if (cmd.includes('start')) {
       this.service.startStreaming();
-
       return result;
     }
 
@@ -27,7 +27,7 @@ export class Controller {
       return result;
     }
 
-    return this.service.startStreaming();
+    return result;
   }
 
   createClientStream() {
